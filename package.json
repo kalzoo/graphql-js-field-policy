@@ -1,0 +1,46 @@
+{
+  "name": "graphql-field-policy",
+  "version": "0.0.1",
+  "description": "Intuitive policy-based field-level authorization for GraphQL JS",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "prebuild": "yarn lint && yarn test",
+    "build": "tsc",
+    "lint": "eslint src/**/*.ts",
+    "test": "jest"
+  },
+  "author": "kalzoo",
+  "license": "MIT",
+  "jest": {
+    "collectCoverage": true,
+    "roots": [
+      "<rootDir>/test"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    }
+  },
+  "peerDependencies": {
+    "graphql": "^14"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@types/graphql": "^14.2.3",
+    "@types/jest": "^24.0.17",
+    "@types/node": "^12.7.2",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "babel-jest": "^24.9.0",
+    "eslint": "^6.1.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "graphql": "^14.4.2",
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.3"
+  }
+}
