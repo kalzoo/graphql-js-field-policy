@@ -1,6 +1,6 @@
 {
   "name": "graphql-field-policy",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Intuitive policy-based field-level authorization for GraphQL JS",
   "keywords": [
     "graphql",
