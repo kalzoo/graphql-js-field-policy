@@ -21,10 +21,10 @@ The tests, located in the `test/` directory, are written as a readable example o
 
 Previous, public attempts to introduce field-level authorization into GraphQL JS schemas involve one of two approaches:
 
-* An extra dependency layer, such as Prisma, or
+* GraphQL-as-a-service, such as Prisma, or
 * Authorization logic within the resolver
 
-It's best to avoid extra dependencies when we can, and including authorization logic within the resolver can become unwieldy and easily lend itself to oversight, especially with the power of GraphQL. Consider the following query:
+Like me, you may want to steer clear of GraphQL providers, and including authorization logic within the resolver can become unwieldy and easily lend itself to oversight. Consider the following query:
 
 ```graphql
 query GetCustomers {
@@ -48,6 +48,8 @@ Authorization here has to happen at 6 different levels:
 6. For each account, should the user be able to view the balance?
 
 If you leave your authorization logic to the resolver, it may be difficult to grok your overall approach to user authorization, once your schema becomes more complex.
+
+Using `graphql-field-policy`, you'll define policies for `Bank`, `Account`, and `Customer`, keeping authorization logic neatly separated, and then wrap the resolvers at steps 1, 3, and 5 with a simple `fieldPolicy()`, keeping your schema and resolvers cleaner and free to focus on business logic.
 
 ### Policies
 
@@ -135,7 +137,18 @@ Contributions are welcome! The repo has resources to help you get started:
 * Jest tests can be run with `yarn test`
 * If you want to develop/test this module alongside another package, you'll have to take a couple steps in order to avoid an error that looks like this:
 
-    Cannot use GraphQLList "[Request]" from another module or realm.\n\nEnsure that there is only one instance of "graphql" in the node_modules\ndirectory. If different versions of "graphql" are the dependencies of other\nrelied on modules, use "resolutions" to ensure only one version is installed.\n\nhttps://yarnpkg.com/en/docs/selective-version-resolutions\n\nDuplicate "graphql" modules cannot be used at the same time since different\nversions may have different capabilities and behavior. The data from one\nversion used in the function from another could produce confusing and\nspurious results.
+      Cannot use GraphQLList "[Request]" from another module or realm.
+      
+      Ensure that there is only one instance of "graphql" in the node_modules
+      directory. If different versions of "graphql" are the dependencies of other
+      relied on modules, use "resolutions" to ensure only one version is installed.
+      
+      https://yarnpkg.com/en/docs/selective-version-resolutions
+      
+      Duplicate "graphql" modules cannot be used at the same time since different
+      versions may have different capabilities and behavior. The data from one
+      version used in the function from another could produce confusing and
+      spurious results.
 
 1. `rm -rf node_modules` within this package to clear those out
 2. `yarn install --production` to install without the `devDependencies`

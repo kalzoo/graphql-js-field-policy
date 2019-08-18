@@ -2,6 +2,13 @@
   "name": "graphql-field-policy",
   "version": "0.0.1",
   "description": "Intuitive policy-based field-level authorization for GraphQL JS",
+  "keywords": [
+    "graphql",
+    "authorization",
+    "policy",
+    "policies"
+  ],
+  "repository": "github:kalzoo/graphql-js-field-policy",
   "main": "lib/index.js",
   "files": [
     "lib"
