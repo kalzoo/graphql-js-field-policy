@@ -1,19 +1,12 @@
 import {
   graphql,
-  // GraphQLInputObjectType,
   GraphQLObjectType,
-  // GraphQLEnumType,
   GraphQLList,
   GraphQLSchema,
   GraphQLString,
-  // GraphQLInt,
   GraphQLFloat,
-  // GraphQLNonNull,
-  // GraphQLBoolean,
   GraphQLID,
   Source
-  // GraphQLUnionType,
-  // GraphQLInterfaceType
 } from 'graphql';
 
 import { fieldPolicy } from '../src';
@@ -37,7 +30,8 @@ const AccountType = new GraphQLObjectType({
       type: GraphQLID
     },
     balance: {
-      type: GraphQLFloat
+      type: GraphQLFloat,
+      resolve: fieldPolicy((parent: any) => parent.balance, fieldPolicyOptions)
     }
   })
 });
@@ -49,10 +43,12 @@ const BankType = new GraphQLObjectType({
       type: GraphQLID
     },
     accounts: {
-      type: GraphQLList(AccountType)
+      type: GraphQLList(AccountType),
+      resolve: fieldPolicy((parent: any) => parent.accounts, fieldPolicyOptions)
     },
     customers: {
-      type: GraphQLList(CustomerType)
+      type: GraphQLList(CustomerType),
+      resolve: fieldPolicy((parent: any) => parent.customers, fieldPolicyOptions)
     }
   })
 });

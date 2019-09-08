@@ -21,7 +21,7 @@ The tests, located in the `test/` directory, are written as a readable example o
 
 Previous, public attempts to introduce field-level authorization into GraphQL JS schemas involve one of two approaches:
 
-* GraphQL-as-a-service, such as Prisma, or
+* GraphQL frameworks or service providers like GraphCool or
 * Authorization logic within the resolver
 
 Like me, you may want to steer clear of GraphQL providers, and including authorization logic within the resolver can become unwieldy and easily lend itself to oversight. Consider the following query:
@@ -57,7 +57,7 @@ Those coming from the worlds of Ruby and Rails will see similarities with the ex
 
 JS lacks some of the magic that Pundit relied upon, and so policy implementation here is both simpler and more limited.
 
-A policy inherits from this library's `Policy` class. If you're using TypeScript, note the two type parameters, `ContextType` and `RecordType`.
+Your policies will inherit from this library's `Policy` class. If you're using TypeScript, note the two type parameters, `ContextType` and `RecordType`.
 
 A policy's _context_ defines the environment it operates within, and generally carries information about the authenticated user, and possibly the request itself. That's up to you.
 
@@ -74,7 +74,7 @@ A policy has a set of standard methods which you can override:
 * `authorize(operation)`: rather than returning `false` on an unauthorized operation, will throw an `UnknownOperationError | NotAuthorizedError`
 * `authorizeField(fieldName)`: similar to `authorize` but for individual fields
 
-Only `field`, `manage`, `show`, and `authorize*` are currently integrated with GraphQL.
+Only `field`, `manage`, `show`, and `authorize*` are currently integrated with GraphQL here, but you can call them directly within your models or resolvers in the meantime.
 
 `Policy#field` takes a field name as its only parameter, and returns `true` if the field of the policy's guarded record may be read by its user within the given context, and `false` otherwise. For example, if a `policy` guards a `Book`, and that book may have a `published` attribute, then you may authorize access to the `price` field based on whether or not the user works for the publisher:
 
@@ -97,7 +97,7 @@ In this case, the book itself has been authorized to query fields from because `
 
 `Policy#show`, as shown above, guards read access to the resolved entity as a whole, which maps to a `DocumentNode` in your GraphQL Schema.
 
-`Policy#manage` authorizes all access to the object and all fields, to prevent repetitive checks like `return user.isAdmin` on individual operations and fields.
+`Policy#manage` authorizes all access to the object and all fields, to prevent repetitive checks like `return user.isAdmin` on individual operations and fields. If `#manage` returns `true`, the user is authorized and no other methods are called. Use with caution.
 
 `Policy#authorize` and `Policy#authorizeField` are similar, except that they take an operation name (like `show`) or a field name (like `price`), query it, and throw an error if the return value is false. Within GraphQL, the error will travel back up the tree and be returned to the user.
 

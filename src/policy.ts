@@ -6,6 +6,7 @@ class Policy<ContextType, RecordType> {
     this.context = context;
     this.record = record;
   }
+
   // Whether a specific field may be queried, once the entire record has been authorized with `show`
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   field(name: string): boolean {
@@ -21,7 +22,7 @@ class Policy<ContextType, RecordType> {
     if (!(operation in this)) {
       throw new UnknownAuthorizationError(`Authorization: Operation "${operation}" unknown`);
     }
-    // @ts-ignore: unsure how to type this[operation]
+    // @ts-ignore
     if (!(await this.manage()) && !(await this[operation]())) {
       throw new NotAuthorizedError(this.context, operation, this.constructor.name);
     }
